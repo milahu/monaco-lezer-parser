@@ -19,17 +19,22 @@ export class MonacoTreeSitter {
     Monaco,
     editor,
     language,
-    debounceUpdate = 15
+    options = {},
   ) {
     this.editor = editor;
     this.language = language;
     this.monacoDecorationKeys = {};
+    this.options = options || {};
+    if (this.options.debounceUpdate == undefined) this.options.debounceUpdate = 15;
+    this.onUpdateTree = options.onUpdateTree || (() => null);
     provideMonacoModule(Monaco);
 
     this.tree = language ? language.parser.parse(editor.getValue()) : null;
-    console.log('tree', this.tree);
-    this.buildHighlightDebounced =
-      debounceUpdate == null ? this.buildHighlight : lodashDebounce(this.buildHighlight.bind(this), debounceUpdate);
+    this.onUpdateTree(this.tree);
+    this.buildHighlightDebounced = (!this.options.debounceUpdate
+      ? this.buildHighlight // instant update
+      : lodashDebounce(this.buildHighlight.bind(this), this.options.debounceUpdate)
+    );
 
     const eventListener = editor.getModel().onDidChangeContent(this.onEditorContentChange.bind(this));
     this.dispose = () => {
@@ -56,8 +61,7 @@ export class MonacoTreeSitter {
       this.tree.edit({ startIndex, oldEndIndex, newEndIndex, startPosition, oldEndPosition, newEndPosition });
     }
     this.tree = this.language.parser.parse(this.editor.getValue(), this.tree); // TODO: Don't use getText, use Parser.Input
-    
-    console.log('tree', this.tree.rootNode.toString());
+    this.onUpdateTree(this.tree);
     this.buildHighlightDebounced(); // TODO: Build highlight incrementally
   }
 
