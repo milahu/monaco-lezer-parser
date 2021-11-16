@@ -1,0 +1,58 @@
+{
+    "simpleTerms": {
+        "identifier": "variable",
+        "attr_identifier": "variable",
+
+        "integer": "number",
+        "float": "number",
+
+        "string": "string",
+        "indented_string": "string",
+        "path": "string",
+        "spath": "string",
+        "comment": "comment",
+
+        "null": "constant",
+        "true": "constant",
+        "false": "constant",
+
+        "\"if\"": "control",
+        "if": "control",
+        "\"else\"": "control",
+
+        "\".\"": "operator",
+        "\"->\"": "operator",
+        "\"*\"": "operator",
+        "\"-\"": "operator",
+        "\"+\"": "operator",
+        "\"/\"": "operator",
+        "\"++\"": "operator",
+        "\"==\"": "operator",
+        "\"!\"": "operator",
+        "\"!=\"": "operator",
+        "\"<\"": "operator",
+        "\">\"": "operator",
+        "\">=\"": "operator",
+        "\"<=\"": "operator",
+        "\"&&\"": "operator",
+        "\"||\"": "operator",
+        "\"=\"": "operator",
+        "\"?\"": "operator",
+        "\";\"": "punctuation",
+        "\"[\"": "punctuation",
+        "\"]\"": "punctuation",
+        "\",\"": "punctuation",
+        "\"{\"": "punctuation",
+        "\"}\"": "punctuation",
+        "\"(\"": "punctuation",
+        "\")\"": "punctuation"
+    },
+
+    "complexTerms": ["identifier", "attr_identifier"],
+
+    "complexScopes": {
+        "identifier": "variable",
+        "attr_identifier": "variable"
+    }
+
+}
