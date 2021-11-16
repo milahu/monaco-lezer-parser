@@ -1,22 +1,30 @@
 {
   "monacoTreeSitter": {
-    "type": "#eab700",
-    "scope": "#4d4d4c",
-    "function": "#4271ae",
-    "variable": "#4d4d4c",
-    "number": "#f5871f",
-    "string": "#718c00",
-    "comment": "#8e908c",
+    "type": "red",
+    "scope": "green",
+    "function": "blue",
+    "variable": "lightblue",
+    "number": "white",
+    "string": "darkred",
+    "comment": "lightgreen",
+    "control": "purple",
+    "punctuation": "yellow",
     "constant": "#f5871f",
     "directive": "#8959a8",
-    "control": "#8959a8",
     "operator": "#3e999f",
-    "modifier": "#8959a8",
-    "punctuation": "#4d4d4c"
+    "modifier": "#8959a8"
   },
   "base": {
-    "base": "vs",
+    "base": "vs-dark",
     "inherit": true,
+    "colors": {
+      "editor.foreground": "#000000",
+      "editor.background": "#ffffff",
+      "editor.selectionBackground": "#202080",
+      "editor.lineHighlightBackground": "#EFEFEF",
+      "editorCursor.foreground": "#AEAFAD",
+      "editorWhitespace.foreground": "#D1D1D1"
+    },
     "rules": [
       {
         "foreground": "8e908c",
@@ -240,14 +248,6 @@
         "fontStyle": "italic",
         "token": "meta.diff.range"
       }
-    ],
-    "colors": {
-      "editor.foreground": "#4D4D4C",
-      "editor.background": "#FFFFFF",
-      "editor.selectionBackground": "#D6D6D6",
-      "editor.lineHighlightBackground": "#EFEFEF",
-      "editorCursor.foreground": "#AEAFAD",
-      "editorWhitespace.foreground": "#D1D1D1"
-    }
+    ]
   }
 }
