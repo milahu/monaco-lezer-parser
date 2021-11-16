@@ -35,7 +35,7 @@ export function buildHighlightInfo(tree, language) {
       if (!node.isNamed()) type = '"' + type + '"';
       // Simple one-level terms
       let term = null;
-      if (!language.complexTerms.includes(type)) {
+      if (!(type in language.complexTerms)) {
         term = language.simpleTerms[type];
       }
       // Complex terms require multi-level analyzes
