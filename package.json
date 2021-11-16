@@ -1,12 +1,17 @@
 {
   "name": "monaco-tree-sitter",
   "version": "0.0.5",
-  "description": "Highlight your Monaco Editor with tree-sitter grammar.",
+  "description": "tree-sitter syntax highlighting for monaco-editor",
   "type": "module",
   "module": "./src/index.js",
   "repository": "https://github.com/Menci/monaco-tree-sitter",
   "author": "Menci <huanghaorui301@gmail.com>",
   "license": "MIT",
+  "keywords": [
+    "tree-sitter",
+    "monaco-editor",
+    "syntax highlighting"
+  ],
   "dependencies": {
     "lodash.debounce": "*"
   },
