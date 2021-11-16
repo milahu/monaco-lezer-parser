@@ -1,6 +1,9 @@
 import { Monaco } from "./monaco.js";
 
 export class Theme {
+
+  cssClassNamePrefix = '';
+
   /**
    * Load a theme. The theme will be used for ALL monaco editors.
    * A theme provides definitions for both MonacoTreeSitter and Monaco Editor itself.
@@ -25,6 +28,7 @@ export class Theme {
 
     this.config = config;
     this.tag.innerHTML = this.generateCss();
+    this.cssClassNamePrefix = '';
   }
 
   /**
