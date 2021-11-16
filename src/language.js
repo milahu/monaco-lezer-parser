@@ -1,16 +1,6 @@
-import * as Parser from "web-tree-sitter";
-import { Term } from "./highlighter";
-
 export class Language {
   // Parser
-  parser: Parser;
-
-  // Grammar
-  readonly simpleTerms: Record<string, Term> = {};
-  readonly complexTerms: string[] = [];
-  readonly complexScopes: Record<string, Term> = {};
-  readonly complexDepth: number;
-  readonly complexOrder: boolean;
+  parser;
 
   /**
    * Load a grammar from a grammar JSON object. Grammar JSON files are in the "grammars" directory.
@@ -19,7 +9,10 @@ export class Language {
    * @param parser The web-tree-sitter parser, should be after called `.setLanguage()`. If omitted,
    * `init()` must be called to load a compiled tree-sitter language WASM file.
    */
-  constructor(grammarJson: any, parser?: Parser) {
+  constructor(grammarJson, parser) {
+    this.simpleTerms = {};
+    this.complexTerms = {};
+    this.complexScopes = {};
     for (const t in grammarJson.simpleTerms) this.simpleTerms[t] = grammarJson.simpleTerms[t];
     for (const t in grammarJson.complexTerms) this.complexTerms[t] = grammarJson.complexTerms[t];
     for (const t in grammarJson.complexScopes) this.complexScopes[t] = grammarJson.complexScopes[t];
@@ -38,7 +31,7 @@ export class Language {
   /**
    * Initialize the parser with a tree-sitter language WASM file and web-tree-sitter module.
    */
-  async init(languageWasmPath: string, Parser: typeof import("web-tree-sitter")) {
+  async init(languageWasmPath, Parser) {
     // Initlaize parser
     this.parser = new Parser();
     const language = await Parser.Language.load(languageWasmPath);

@@ -1,9 +1,8 @@
-import MonacoModule = require("monaco-editor");
-import { Theme } from "./theme";
+import { Theme } from "./theme.js";
 
-export let Monaco: typeof MonacoModule;
+export let Monaco;
 
-export function provideMonacoModule(module: typeof MonacoModule) {
+export function provideMonacoModule(module) {
   if (!Monaco) {
     Monaco = module;
     Theme.load(Theme.config);

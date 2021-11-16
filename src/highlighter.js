@@ -1,24 +1,6 @@
-import Parser = require("web-tree-sitter");
-import MonacoModule = require("monaco-editor");
-import { Monaco } from "./monaco";
-import { Language } from "./language";
+import { Monaco } from "./monaco.js";
 
-export type Term =
-  | "type"
-  | "scope"
-  | "function"
-  | "variable"
-  | "number"
-  | "string"
-  | "comment"
-  | "constant"
-  | "directive"
-  | "control"
-  | "operator"
-  | "modifier"
-  | "punctuation";
-
-export const terms: Term[] = [
+export const terms = [
   "type",
   "scope",
   "function",
@@ -34,17 +16,11 @@ export const terms: Term[] = [
   "punctuation"
 ];
 
-// Used internally, for a middle layer between tree-sitter tree and monaco decorations/highlighter
-export interface HighlightInfo {
-  term: Term;
-  node: Parser.SyntaxNode;
-}
-
-export function buildHighlightInfo(tree: Parser.Tree, language: Language) {
-  const result: HighlightInfo[] = [];
+export function buildHighlightInfo(tree, language) {
+  const result = [];
 
   // Travel tree and make decorations
-  const stack: Parser.SyntaxNode[] = [];
+  const stack = [];
   let node = tree.rootNode.firstChild;
   while (stack.length > 0 || node) {
     // Go deeper
@@ -56,9 +32,9 @@ export function buildHighlightInfo(tree: Parser.Tree, language: Language) {
     else {
       node = stack.pop();
       let type = node.type;
-      if (!((node.isNamed as unknown) as () => boolean)()) type = '"' + type + '"';
+      if (!node.isNamed()) type = '"' + type + '"';
       // Simple one-level terms
-      let term: Term = null;
+      let term = null;
       if (!language.complexTerms.includes(type)) {
         term = language.simpleTerms[type];
       }
@@ -70,7 +46,7 @@ export function buildHighlightInfo(tree: Parser.Tree, language: Language) {
         let parent = node.parent;
         for (let i = 0; i < language.complexDepth && parent; i++) {
           let parentType = parent.type;
-          if (!((parent.isNamed as unknown) as () => boolean)()) parentType = '"' + parentType + '"';
+          if (!parent.isNamed()) parentType = '"' + parentType + '"';
           desc = parentType + " > " + desc;
           scopes.push(desc);
           parent = parent.parent;
@@ -91,7 +67,7 @@ export function buildHighlightInfo(tree: Parser.Tree, language: Language) {
             sibling = sibling.nextSibling;
           }
 
-          const orderScopes: string[] = [];
+          const orderScopes = [];
           for (let i = 0; i < scopes.length; i++)
             orderScopes.push(scopes[i], scopes[i] + "[" + index + "]", scopes[i] + "[" + rindex + "]");
           scopes = orderScopes;
@@ -113,10 +89,10 @@ export function buildHighlightInfo(tree: Parser.Tree, language: Language) {
   return result;
 }
 
-export function buildDecorations(tree: Parser.Tree, language: Language) {
+export function buildDecorations(tree, language) {
   if (!Monaco) throw new TypeError("Please provide the monaco-editor module via provideMonacoModule() first.");
 
-  const decorations: Record<Term, MonacoModule.Range[]> = Object.fromEntries(terms.map(term => [term, []])) as any;
+  const decorations = Object.fromEntries(terms.map(term => [term, []]));
 
   const highlightInfo = buildHighlightInfo(tree, language);
   for (const { term, node } of highlightInfo) {

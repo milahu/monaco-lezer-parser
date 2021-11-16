@@ -1,36 +1,32 @@
-import Parser = require("web-tree-sitter");
-import MonacoModule = require("monaco-editor");
-import lodashDebounce = require("lodash.debounce");
+import lodashDebounce from "lodash.debounce";
 
-import { Language } from "./language";
-import { buildDecorations, Term } from "./highlighter";
-import { Theme } from "./theme";
-import { provideMonacoModule } from "./monaco";
+import { buildDecorations } from "./highlighter.js";
+import { Theme } from "./theme.js";
+import { provideMonacoModule } from "./monaco.js";
 
-export * from "./theme";
-export * from "./language";
-export * from "./highlighter";
-export * from "./highlight";
+export * from "./theme.js";
+export * from "./language.js";
+export * from "./highlighter.js";
+export * from "./highlight.js";
 
-function monacoPositionToParserPoint(position: MonacoModule.Position): Parser.Point {
+function monacoPositionToParserPoint(position) {
   return { row: position.lineNumber, column: position.column };
 }
 
-export class MonacoTreeSitter implements MonacoModule.IDisposable {
-  private tree: Parser.Tree;
-  private monacoDecorationKeys: string[] = [];
-  private buildHighlightDebounced: () => void;
-  public dispose: () => void;
+export class MonacoTreeSitter {
 
   constructor(
-    Monaco: typeof MonacoModule,
-    public readonly editor: MonacoModule.editor.IStandaloneCodeEditor,
-    private language: Language,
-    debounceUpdate: number = 15
+    Monaco,
+    editor,
+    language,
+    debounceUpdate = 15
   ) {
+    this.editor = editor;
+    this.language = language;
     provideMonacoModule(Monaco);
 
     this.tree = language ? language.parser.parse(editor.getValue()) : null;
+    console.log('tree', this.tree);
     this.buildHighlightDebounced =
       debounceUpdate == null ? this.buildHighlight : lodashDebounce(this.buildHighlight.bind(this), debounceUpdate);
 
@@ -44,7 +40,8 @@ export class MonacoTreeSitter implements MonacoModule.IDisposable {
     this.buildHighlight();
   }
 
-  private onEditorContentChange(e: MonacoModule.editor.IModelContentChangedEvent) {
+  onEditorContentChange(e) {
+    console.log('monaco-tree-sitter onEditorContentChange', this.language, e.changes.length);
     if (!this.language) return;
     if (e.changes.length == 0) return;
 
@@ -58,26 +55,30 @@ export class MonacoTreeSitter implements MonacoModule.IDisposable {
       this.tree.edit({ startIndex, oldEndIndex, newEndIndex, startPosition, oldEndPosition, newEndPosition });
     }
     this.tree = this.language.parser.parse(this.editor.getValue(), this.tree); // TODO: Don't use getText, use Parser.Input
+    
+    console.log('tree', this.tree.rootNode.toString());
     this.buildHighlightDebounced(); // TODO: Build highlight incrementally
   }
 
-  private buildHighlight() {
+  buildHighlight() {
     const decorations = this.language ? buildDecorations(this.tree, this.language) : null;
 
-    const monacoDecorations: MonacoModule.editor.IModelDeltaDecoration[] = [];
+    const monacoDecorations = [];
     if (decorations)
       for (const [term, ranges] of Object.entries(decorations)) {
-        const options: MonacoModule.editor.IModelDecorationOptions = {
-          inlineClassName: Theme.getClassNameOfTerm(term as Term)
+        const options = {
+          inlineClassName: Theme.getClassNameOfTerm(term)
         };
         for (const range of ranges) {
           monacoDecorations.push({ range, options });
         }
       }
+    /* FIXME TypeError: Cannot read properties of undefined (reading 'length')
     this.monacoDecorationKeys = this.editor.deltaDecorations(this.monacoDecorationKeys, monacoDecorations);
+    */
   }
 
-  public changeLanguage(language: Language) {
+  changeLanguage(language) {
     this.language = language;
     this.tree = language ? language.parser.parse(this.editor.getValue()) : null;
     this.buildHighlight();
@@ -86,7 +87,7 @@ export class MonacoTreeSitter implements MonacoModule.IDisposable {
   /**
    * Refresh the editor's highlight. Usually called after switching theme.
    */
-  public refresh() {
+  refresh() {
     this.buildHighlight();
   }
 }

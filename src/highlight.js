@@ -1,8 +1,7 @@
-import { Theme } from "./theme";
-import { Language } from "./language";
-import { Term, terms, buildHighlightInfo } from "./highlighter";
+import { Theme } from "./theme.js";
+import { terms, buildHighlightInfo } from "./highlighter.js";
 
-export function escapeHtml(text: string, escapeQuotes: boolean = false) {
+export function escapeHtml(text, escapeQuotes = false) {
   text = text.split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;").split(" ").join("&nbsp;");
   if (escapeQuotes) text = text.split('"').join("&quot;");
   return text;
@@ -17,10 +16,10 @@ export function escapeHtml(text: string, escapeQuotes: boolean = false) {
  * @param getCssClassName If not null, use this function to generate the CSS class name for terms.
  */
 export function highlight(
-  code: string,
-  language: Language,
-  useInlineStyle: boolean = false,
-  getCssClassName?: (term: Term) => string
+  code,
+  language,
+  useInlineStyle = false,
+  getCssClassName
 ) {
   const tree = language.parser.parse(code);
   const highlightInfo = buildHighlightInfo(tree, language)
@@ -31,11 +30,11 @@ export function highlight(
     }))
     .sort((a, b) => a.startIndex - b.startIndex);
 
-  const termCssClassName: Record<Term, string> = useInlineStyle
+  const termCssClassName = useInlineStyle
     ? null
-    : (Object.fromEntries(
+    : Object.fromEntries(
         terms.map(term => [term, getCssClassName ? escapeHtml(getCssClassName(term), true) : `mts-${term}`])
-      ) as any);
+      );
 
   // TODO: Use a tree-traversal based algorithm to handle nested terms.
   let currentIndex = 0,

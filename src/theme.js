@@ -1,27 +1,6 @@
-import MonacoModule = require("monaco-editor");
-import { Monaco } from "./monaco";
-
-import { Term } from "./highlighter";
-
-export interface ThemeConfig {
-  monacoTreeSitter: Record<
-    Term,
-    | string
-    | {
-        color: string;
-        extraCssStyles?: string;
-      }
-  >;
-  base: MonacoModule.editor.IStandaloneThemeData;
-}
+import { Monaco } from "./monaco.js";
 
 export class Theme {
-  private static tag: HTMLStyleElement;
-  public static config: ThemeConfig;
-  private static readonly cssClassNamePrefix = "mts-";
-
-  private constructor() {}
-
   /**
    * Load a theme. The theme will be used for ALL monaco editors.
    * A theme provides definitions for both MonacoTreeSitter and Monaco Editor itself.
@@ -33,7 +12,7 @@ export class Theme {
    *
    * @param config The JSON.parse()-ed theme config.
    */
-  public static load(config: ThemeConfig) {
+  static load(config) {
     if (Monaco) {
       Monaco.editor.defineTheme("monaco-tree-sitter", config.base);
       Monaco.editor.setTheme("monaco-tree-sitter");
@@ -51,13 +30,13 @@ export class Theme {
   /**
    * Only monaco-tree-sitter's theme will be generated to CSS.
    */
-  public static generateCss(classNamePrefix: string = this.cssClassNamePrefix) {
+  static generateCss(classNamePrefix = this.cssClassNamePrefix) {
     return Object.keys(this.config.monacoTreeSitter)
-      .map((term: Term) => `span.${this.getClassNameOfTerm(term, classNamePrefix)}{${this.generateStyleOfTerm(term)}}`)
+      .map((term) => `span.${this.getClassNameOfTerm(term, classNamePrefix)}{${this.generateStyleOfTerm(term)}}`)
       .join("");
   }
 
-  public static generateStyleOfTerm(term: Term) {
+  static generateStyleOfTerm(term) {
     const style = this.config.monacoTreeSitter[term];
     if (!style) return "";
     return typeof style === "string"
@@ -65,11 +44,11 @@ export class Theme {
       : `color:${style.color};${style.extraCssStyles ? style.extraCssStyles : ""}`;
   }
 
-  public static getClassNameOfTerm(term: Term, classNamePrefix: string = this.cssClassNamePrefix) {
+  static getClassNameOfTerm(term, classNamePrefix = this.cssClassNamePrefix) {
     return classNamePrefix + term;
   }
 
-  public static getColorOfTerm(term: Term) {
+  static getColorOfTerm(term) {
     const style = this.config.monacoTreeSitter[term];
     if (typeof style === "object") {
       return style.color;
