@@ -23,6 +23,7 @@ export class MonacoTreeSitter {
   ) {
     this.editor = editor;
     this.language = language;
+    this.monacoDecorationKeys = {};
     provideMonacoModule(Monaco);
 
     this.tree = language ? language.parser.parse(editor.getValue()) : null;
@@ -73,9 +74,7 @@ export class MonacoTreeSitter {
           monacoDecorations.push({ range, options });
         }
       }
-    /* FIXME TypeError: Cannot read properties of undefined (reading 'length')
     this.monacoDecorationKeys = this.editor.deltaDecorations(this.monacoDecorationKeys, monacoDecorations);
-    */
   }
 
   changeLanguage(language) {
