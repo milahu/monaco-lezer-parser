@@ -61,6 +61,7 @@
 
         "Select": "punctuation",
         "Colon": "punctuation",
+        "SelectDot": "punctuation",
         "AttrPathDot": "punctuation",
 
         "ConcatList": "operator",
