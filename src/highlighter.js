@@ -19,17 +19,18 @@ export const terms = [
 export function buildHighlightInfo(tree, language) {
   const result = [];
 
-  console.dir(tree);
-  console.log('language.simpleTerms', language.simpleTerms);
-  console.log('language.complexTerms', language.complexTerms);
-  console.log('language.complexScopes', language.complexScopes);
+  //console.log('monaco-lezer-parser buildHighlightInfo tree', tree);
+  //console.log('monaco-lezer-parser buildHighlightInfo language.simpleTerms', language.simpleTerms);
+  //console.log('monaco-lezer-parser buildHighlightInfo language.complexTerms', language.complexTerms);
+  //console.log('monaco-lezer-parser buildHighlightInfo language.complexScopes', language.complexScopes);
   language.complexDepth = 10; // TODO?
-  console.log('language.complexDepth', language.complexDepth);
+  //console.log('monaco-lezer-parser buildHighlightInfo language.complexDepth', language.complexDepth);
 
   // Travel tree and make decorations
   const stack = [];
   //let node = tree.rootNode.firstChild; // tree-sitter
   let node = tree.topNode.firstChild; // lezer-parser
+  // depth-first search
   while (stack.length > 0 || node) {
     // Go deeper
     if (node) {
@@ -45,6 +46,8 @@ export function buildHighlightInfo(tree, language) {
       let type = node.type.name; // lezer-parser: string types // TODO use numeric types
       // lezer-parser-nix/src/parser.terms.js
 
+      // TODO node.name == node.type.name
+      // "node.name: string": Shorthand for "node.type.name" https://lezer.codemirror.net/docs/ref/#common.TreeCursor
       //console.dir({ node });
       //if (!node.isNamed()) type = '"' + type + '"'; // tree-sitter
       if (!node.name) type = '"' + type + '"'; // lezer-parser
@@ -53,13 +56,13 @@ export function buildHighlightInfo(tree, language) {
       //if (!(type in language.complexTerms)) {
       if (!(language.complexTerms.has(type))) {
         term = language.simpleTerms[type];
-        console.log(`simple term. type ${type} -> term ${term}`);
+        //console.log(`monaco-lezer-parser buildHighlightInfo simple term. type ${type} -> term ${term}`);
       }
       // Complex terms require multi-level analyzes
       else {
         // Build complex scopes
         let desc = type;
-        console.log(`complex term. type ${type} -> desc ${desc}`);
+        //console.log(`monaco-lezer-parser buildHighlightInfo complex term. type ${type} -> desc ${desc}`);
         let scopes = [desc];
         let parent = node.parent;
         for (let i = 0; i < language.complexDepth && parent; i++) {
@@ -72,7 +75,7 @@ export function buildHighlightInfo(tree, language) {
           //if (!parent.isNamed()) parentType = '"' + parentType + '"'; // tree-sitter
           if (!parent.name) parentType = '"' + parentType + '"'; // lezer-parser
           desc = parentType + " > " + desc;
-          console.log(`complex term child. depth ${i}. parentType ${parentType} -> desc ${desc}`);
+          //console.log(`monaco-lezer-parser buildHighlightInfo complex term child. depth ${i}. parentType ${parentType} -> desc ${desc}`);
           scopes.push(desc);
           parent = parent.parent;
         }
@@ -100,7 +103,7 @@ export function buildHighlightInfo(tree, language) {
           scopes = orderScopes;
         }
         // Use most complex scope
-        console.log(`complex term child. scopes ${scopes}`);
+        //console.log(`monaco-lezer-parser buildHighlightInfo complex term child. scopes ${scopes}`);
         for (const d of scopes) if (d in language.complexScopes) term = language.complexScopes[d];
       }
 

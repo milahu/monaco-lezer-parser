@@ -46,7 +46,7 @@ export class MonacoLezerParser {
 
     // initial parse
     console.log(`monaco-lezer-parser constructor: language=${language}`);
-    console.log(`monaco-lezer-parser constructor: editor.value=${editor.getValue()}`);
+    //console.log(`monaco-lezer-parser constructor: editor.value=${editor.getValue()}`);
     if (language) {
       this.tree = language.parser.parse(editor.getValue());
       this.fragments = TreeFragment.addTree(this.tree);
@@ -55,8 +55,9 @@ export class MonacoLezerParser {
       this.tree = null;
       this.fragments = null;
     }
+    //console.log(`monaco-lezer-parser constructor: this.tree`, this.tree);
     this.onUpdateTree(this.tree); // callback
-    console.log(`monaco-lezer-parser constructor: debounceUpdate=${this.options.debounceUpdate}`);
+    //console.log(`monaco-lezer-parser constructor: debounceUpdate=${this.options.debounceUpdate}`);
     this.buildHighlightDebounced = (!this.options.debounceUpdate
       ? this.buildHighlight // instant update
       : lodashDebounce(this.buildHighlight.bind(this), this.options.debounceUpdate)
@@ -69,16 +70,16 @@ export class MonacoLezerParser {
       this.buildHighlight();
     };
 
-    console.log(`monaco-lezer-parser constructor: buildHighlight`);
+    //console.log(`monaco-lezer-parser constructor: buildHighlight`);
     this.buildHighlight();
   }
 
   onEditorContentChange(e) {
-    console.log('monaco-lezer-parser onEditorContentChange', this.language, e.changes.length);
+    //console.log('monaco-lezer-parser onEditorContentChange', this.language, e.changes.length);
     if (!this.language) return;
     if (e.changes.length == 0) return;
 
-    console.log('e.changes', e.changes);
+    //console.log('e.changes', e.changes);
     const changes = [];
     e.changes.forEach(change => {
       const { range } = change;
@@ -88,13 +89,13 @@ export class MonacoLezerParser {
         fromB: this.editor.getModel().getOffsetAt({ lineNumber: range.startLineNumber, column: range.startColumn }),
         toB: this.editor.getModel().getOffsetAt({ lineNumber: range.endLineNumber, column: range.endColumn }),
       };
-      console.log('change', change, 'c', c);
+      //console.log('change', change, 'c', c);
       changes.push(c);
     });
 
     //this.fragments = TreeFragment.applyChanges(this.fragments, e.changes);
     this.fragments = TreeFragment.applyChanges(this.fragments, changes);
-    console.log('editor.value', this.editor.getValue());
+    //console.log('editor.value', this.editor.getValue());
     this.tree = this.language.parser.parse(
       this.editor.getValue(), // TODO: Don't use getText, use Parser.Input
       //this.tree,
@@ -151,7 +152,7 @@ if (stepMap) {
           inlineClassName: Theme.getClassNameOfTerm(term)
         };
         for (const range of ranges) {
-          console.log(`monaco-lezer-parser buildHighlight: term=${term} range=${range} options=${options}`)
+          //console.log(`monaco-lezer-parser buildHighlight: term=${term} range=${range} options=${options}`)
           monacoDecorations.push({ range, options });
         }
       }
@@ -162,7 +163,7 @@ if (stepMap) {
     this.language = language;
     // initial parse
     console.log(`monaco-lezer-parser changeLanguage: language=${language}`);
-    console.log(`monaco-lezer-parser changeLanguage: editor.value=${this.editor.getValue()}`);
+    //console.log(`monaco-lezer-parser changeLanguage: editor.value=${this.editor.getValue()}`);
     this.tree = language ? language.parser.parse(this.editor.getValue()) : null;
     this.buildHighlight();
   }
