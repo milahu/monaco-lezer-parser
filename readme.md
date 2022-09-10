@@ -1,11 +1,11 @@
-# monaco-tree-sitter
+# monaco-lezer-parser
 
-tree-sitter syntax highlighting for monaco-editor
+lezer-parser syntax highlighting for monaco-editor
 
 ## Install
 
 ```bash
-npm install -D https://github.com/milahu/monaco-tree-sitter.git
+npm install -D https://github.com/milahu/monaco-lezer-parser
 ```
 
 ## Use
@@ -18,7 +18,9 @@ This project is licensed under the MIT license.
 
 ## Credits
 
-This project used code and assets from:
+This project is based on
 
+* https://github.com/Menci/monaco-tree-sitter
+* https://github.com/milahu/monaco-lezer-parser
 * [{Syntax Highlighter}](https://github.com/EvgeniyPeshkov/syntax-highlighter)
-* [Tree Sitter for VSCode](https://github.com/georgewfraser/vscode-tree-sitter)
+* [Tree Sitter for VSCode](https://github.com/georgewfraser/vscode-lezer-parser)
