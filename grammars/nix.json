@@ -80,7 +80,7 @@
         "HasAttr": "operator",
         "Imply": "operator",
         "Not": "operator",
-        "Negative": "operator",
+        "Negative": "operator"
     },
 
     "complexTerms": [
