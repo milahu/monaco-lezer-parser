@@ -12,6 +12,10 @@ npm install -D https://github.com/milahu/monaco-lezer-parser
 
 see [examples/](examples/)
 
+## demos
+
+* [nixos-config-webui](https://github.com/milahu/nixos-config-webui) - web editor for nix files
+
 ## License
 
 This project is licensed under the MIT license.
