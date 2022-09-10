@@ -1,6 +1,6 @@
 # monaco-lezer-parser
 
-lezer-parser syntax highlighting for monaco-editor
+[lezer-parser](https://github.com/lezer-parser/lr) syntax highlighting for [monaco-editor](https://github.com/microsoft/monaco-editor)
 
 ## Install
 
