@@ -21,6 +21,6 @@ This project is licensed under the MIT license.
 This project is based on
 
 * https://github.com/Menci/monaco-tree-sitter
-* https://github.com/milahu/monaco-lezer-parser
+* https://github.com/milahu/monaco-tree-sitter
 * [{Syntax Highlighter}](https://github.com/EvgeniyPeshkov/syntax-highlighter)
 * [Tree Sitter for VSCode](https://github.com/georgewfraser/vscode-lezer-parser)
