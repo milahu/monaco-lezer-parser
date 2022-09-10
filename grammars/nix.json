@@ -1,58 +1,92 @@
 {
     "simpleTerms": {
-        "identifier": "variable",
-        "attr_identifier": "variable",
+        "Identifier": "variable",
+        "AttrPath": "variable",
 
-        "integer": "number",
-        "float": "number",
+        "Int": "number",
+        "Float": "number",
 
-        "string": "string",
-        "indented_string": "string",
-        "path": "string",
-        "spath": "string",
-        "comment": "comment",
+        "String": "",
+        "StringContent": "string",
+        "StringInterpolation": "control",
 
-        "null": "constant",
-        "true": "constant",
-        "false": "constant",
+        "StringBlock": "",
+        "StringBlockContent": "string",
+        "StringBlockInterpolation": "control",
 
-        "\"if\"": "control",
-        "if": "control",
-        "\"else\"": "control",
+        "PathAbsolute": "string",
+        "PathRelative": "string",
+        "PathLibrary": "string",
+        "URI": "string",
 
-        "\".\"": "operator",
-        "\"->\"": "operator",
-        "\"*\"": "operator",
-        "\"-\"": "operator",
-        "\"+\"": "operator",
-        "\"/\"": "operator",
-        "\"++\"": "operator",
-        "\"==\"": "operator",
-        "\"!\"": "operator",
-        "\"!=\"": "operator",
-        "\"<\"": "operator",
-        "\">\"": "operator",
-        "\">=\"": "operator",
-        "\"<=\"": "operator",
-        "\"&&\"": "operator",
-        "\"||\"": "operator",
-        "\"=\"": "operator",
-        "\"?\"": "operator",
-        "\";\"": "punctuation",
-        "\"[\"": "punctuation",
-        "\"]\"": "punctuation",
-        "\",\"": "punctuation",
-        "\"{\"": "punctuation",
-        "\"}\"": "punctuation",
-        "\"(\"": "punctuation",
-        "\")\"": "punctuation"
+        "Comment": "comment",
+        "CommentBlock": "comment",
+
+        "Null": "constant",
+        "True": "constant",
+        "False": "constant",
+
+        "IfExpr": "",
+        "If": "control",
+        "Then": "control",
+        "Else": "control",
+
+        "Let": "",
+        "Apply": "",
+        "Function": "variable",
+
+        "List": "",
+        "AttrSet": "",
+        "Attrs": "",
+        "Attr": "",
+
+        "BracesExpr": "",
+        "BraceOpen": "punctuation",
+        "BraceClose": "punctuation",
+
+        "ListOpen": "punctuation",
+        "ListClose": "punctuation",
+
+        "FormalsOpen": "punctuation",
+        "FormalsComma": "punctuation",
+        "FormalsRest": "punctuation",
+        "FormalsClose": "punctuation",
+        "FormalsAt": "punctuation",
+
+        "InheritBraceOpen": "punctuation",
+        "InheritBraceClose": "punctuation",
+
+        "AttrSetOpen": "punctuation",
+        "AttrSetClose": "punctuation",
+
+        "Select": "punctuation",
+        "Colon": "punctuation",
+        "AttrPathDot": "punctuation",
+
+        "ConcatList": "operator",
+        "Update": "operator",
+        "Add": "operator",
+        "Sub": "operator",
+        "Mul": "operator",
+        "Div": "operator",
+        "Equal": "operator",
+        "NotEqual": "operator",
+        "CompareLT": "operator",
+        "CompareLTE": "operator",
+        "CompareGT": "operator",
+        "CompareGTE": "operator",
+        "And": "operator",
+        "Or": "operator",
+        "HasAttr": "operator",
+        "Imply": "operator",
+        "Not": "operator",
+        "Negative": "operator",
     },
 
-    "complexTerms": ["identifier", "attr_identifier"],
+    "complexTerms": [
+    ],
 
     "complexScopes": {
-        "identifier": "variable",
-        "attr_identifier": "variable"
     }
 
 }

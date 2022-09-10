@@ -3,13 +3,13 @@
     "type": "red",
     "scope": "green",
     "function": "blue",
-    "variable": "lightblue",
+    "variable": "#3333ff",
+    "constant": "blue",
     "number": "white",
-    "string": "darkred",
-    "comment": "lightgreen",
+    "string": "red",
+    "comment": "green",
     "control": "purple",
     "punctuation": "yellow",
-    "constant": "#f5871f",
     "directive": "#8959a8",
     "operator": "#3e999f",
     "modifier": "#8959a8"
@@ -20,7 +20,7 @@
     "colors": {
       "editor.foreground": "#000000",
       "editor.background": "#ffffff",
-      "editor.selectionBackground": "#202080",
+      "editor.selectionBackground": "#102050",
       "editor.lineHighlightBackground": "#EFEFEF",
       "editorCursor.foreground": "#AEAFAD",
       "editorWhitespace.foreground": "#D1D1D1"
